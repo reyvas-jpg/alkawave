@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1000" preserveAspectRatio="xMidYMid slice" width="2400" height="1000">
+  <defs>
+    <linearGradient id="wave" x1="0%" y1="0%" x2="100%" y2="30%">
+      <stop offset="0%"  stop-color="#1e9bff"/>
+      <stop offset="52%" stop-color="#2fe6a8"/>
+      <stop offset="100%" stop-color="#9cff4d"/>
+    </linearGradient>
+    <linearGradient id="wave2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"  stop-color="#1463c7"/>
+      <stop offset="55%" stop-color="#1e9bff"/>
+      <stop offset="100%" stop-color="#2fe6a8"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="80%" cy="12%" r="55%">
+      <stop offset="0%"  stop-color="#1e9bff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#1e9bff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="12%" cy="92%" r="60%">
+      <stop offset="0%"  stop-color="#9cff4d" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#9cff4d" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <!-- base -->
+  <rect width="2400" height="1000" fill="#07090d"/>
+  <rect width="2400" height="1000" fill="url(#glowA)"/>
+  <rect width="2400" height="1000" fill="url(#glowB)"/>
+
+  <!-- deep back wave -->
+  <path fill="url(#wave2)" opacity="0.16" filter="url(#soft)"
+    d="M0,640 C360,520 620,720 980,640 C1360,556 1640,760 2040,660 C2200,620 2320,640 2400,628 L2400,1000 L0,1000 Z"/>
+
+  <!-- mid wave -->
+  <path fill="url(#wave)" opacity="0.20" filter="url(#soft)"
+    d="M0,720 C320,640 600,820 1000,730 C1420,636 1700,840 2080,740 C2230,702 2330,724 2400,714 L2400,1000 L0,1000 Z"/>
+
+  <!-- front wave -->
+  <path fill="url(#wave)" opacity="0.30"
+    d="M0,820 C340,752 640,900 1040,820 C1460,736 1760,910 2140,824 C2270,796 2350,812 2400,806 L2400,1000 L0,1000 Z"/>
+
+  <!-- bright crest line -->
+  <path fill="none" stroke="url(#wave)" stroke-width="3" opacity="0.55"
+    d="M0,818 C340,750 640,898 1040,818 C1460,734 1760,908 2140,822 C2270,794 2350,810 2400,804"/>
+
+  <!-- subtle vignette to keep edges dark -->
+  <rect width="2400" height="1000" fill="url(#glowA)" opacity="0"/>
+</svg>
