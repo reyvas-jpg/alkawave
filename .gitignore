@@ -1,0 +1,6 @@
+# Site-only repo for Hostinger deploy of alkawave.com.
+# Ignore everything at the workspace root, then whitelist only the public site.
+/*
+!/.gitignore
+!/index.html
+!/assets/

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alkawave — High-end websites & AI systems for businesses that mean business</title>
+<meta name="description" content="Alkawave is an AI-driven digital agency. High-end commercial websites, SEO and advertising, plus AI receptionists and CRM automation via our sister company RingKeep." />
+
+<!-- Fonts: Clash Display (display) + Satoshi (body) — distinctive, not Inter -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+
+<!-- Lenis smooth scroll -->
+<link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css" />
+
+<style>
+  :root {
+    --bg:      #07090d;
+    --bg-2:    #0b0e14;
+    --panel:   #0e121a;
+    --fg:      #f3f5f4;
+    --muted:   #8b94a3;
+    --faint:   #565e6b;
+    --line:    #1a2029;
+    --blue:    #1e9bff;
+    --aqua:    #2fe6a8;
+    --lime:    #9cff4d;
+    --wave:    linear-gradient(108deg, #1e9bff 0%, #2fe6a8 52%, #9cff4d 100%);
+    --display: 'Clash Display', 'Satoshi', system-ui, sans-serif;
+    --body:    'Satoshi', system-ui, -apple-system, sans-serif;
+    --gut:     clamp(1.25rem, 6vw, 7rem);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--body);
+    font-weight: 400;
+    line-height: 1.55;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  ::selection { background: var(--aqua); color: #04130c; }
+
+  /* ---------- GRAIN + ATMOSPHERE ---------- */
+  .grain {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    opacity: 0.045; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .atmos {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(60vw 50vw at 82% -8%, rgba(30,155,255,0.16), transparent 60%),
+      radial-gradient(46vw 40vw at 8% 12%, rgba(47,230,168,0.10), transparent 62%);
+  }
+
+  .progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 100%;
+    background: var(--wave); transform: scaleX(0); transform-origin: 0 50%; z-index: 90;
+  }
+
+  main, nav, footer { position: relative; z-index: 2; }
+
+  /* ---------- TYPE ---------- */
+  h1, h2, h3, .display { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; }
+  .eyebrow {
+    font-size: 0.74rem; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--muted); display: inline-flex; align-items: center; gap: 0.7rem;
+  }
+  .eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--wave); display: inline-block; }
+  .grad { background: var(--wave); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+  section { padding: clamp(6rem, 13vh, 11rem) var(--gut); position: relative; }
+  .lead { color: var(--muted); font-size: clamp(1.05rem, 1.5vw, 1.35rem); max-width: 56ch; }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 80;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem var(--gut);
+    transition: background .4s ease, border-color .4s ease, padding .4s ease;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled {
+    background: rgba(7,9,13,0.72); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line); padding-top: .9rem; padding-bottom: .9rem;
+  }
+  .brand { display: flex; align-items: center; gap: .7rem; cursor: pointer; text-decoration: none; }
+  .brand img { height: 34px; width: auto; }
+  .brand span { font-family: var(--display); font-weight: 600; letter-spacing: .04em; font-size: 1.15rem; color: var(--fg); }
+  .nav-links { display: flex; align-items: center; gap: 2.2rem; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: .92rem; transition: color .25s; }
+  .nav-links a:hover { color: var(--fg); }
+  .nav-cta {
+    font-family: var(--body); font-weight: 500; font-size: .9rem;
+    color: var(--fg); border: 1px solid var(--line); padding: .6rem 1.2rem; border-radius: 8px;
+    background: #11151d; transition: border-color .25s, transform .25s, background .25s;
+  }
+  .nav-cta:hover { border-color: var(--aqua); transform: translateY(-1px); }
+  .nav-toggle { display: none; background: none; border: 0; color: var(--fg); cursor: pointer; }
+
+  /* ---------- BUTTONS ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: .6rem; cursor: pointer; text-decoration: none;
+    font-family: var(--body); font-weight: 600; font-size: 1rem; border-radius: 9px;
+    padding: .95rem 1.6rem; transition: transform .25s ease, box-shadow .35s ease, background .25s;
+  }
+  .btn-primary { background: var(--wave); color: #04130c; box-shadow: 0 10px 40px -14px rgba(47,230,168,.55); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 50px -12px rgba(47,230,168,.7); }
+  .btn-ghost { color: var(--fg); border: 1px solid var(--line); background: rgba(255,255,255,.015); }
+  .btn-ghost:hover { border-color: var(--muted); transform: translateY(-2px); }
+
+  /* ---------- HERO ---------- */
+  .hero { min-height: 86vh; display: flex; flex-direction: column; justify-content: center; padding-top: 8rem; padding-bottom: 3rem; }
+  .hero .eyebrow { margin-bottom: 1.5rem; }
+  .hero h1 {
+    font-size: clamp(2.7rem, 7.6vw, 7rem); line-height: 0.96; font-weight: 600;
+    max-width: 16ch;
+  }
+  .hero h1 .line { display: block; overflow: hidden; }
+  .hero h1 .line > span { display: block; will-change: transform; }
+  .hero-sub { margin-top: 1.7rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+  .hero-meta {
+    margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; gap: .65rem 1.4rem; color: var(--faint);
+    font-size: .82rem; letter-spacing: .04em; text-transform: uppercase;
+  }
+  .hero-meta b { color: var(--muted); font-weight: 500; }
+  .scroll-hint { position: absolute; bottom: 1.6rem; right: var(--gut); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--faint); }
+
+  /* ---------- SECTION HEAD ---------- */
+  .sec-head { max-width: 70ch; margin-bottom: clamp(3rem, 7vh, 5.5rem); }
+  .sec-head h2 { font-size: clamp(2rem, 4.6vw, 3.6rem); line-height: 1.04; margin-top: 1.3rem; max-width: 18ch; }
+
+  /* ---------- SERVICES ---------- */
+  .services { display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--line); }
+  .service {
+    display: grid; grid-template-columns: 5rem 1fr auto; gap: 2rem; align-items: start;
+    padding: 2.6rem 0; border-bottom: 1px solid var(--line);
+    transition: background .4s ease;
+  }
+  .service:hover { background: linear-gradient(90deg, rgba(47,230,168,.04), transparent 70%); }
+  .service .num { font-family: var(--display); font-size: 1rem; color: var(--aqua); padding-top: .35rem; }
+  .service h3 { font-size: clamp(1.5rem, 2.7vw, 2.3rem); font-weight: 500; line-height: 1.08; }
+  .service .desc { color: var(--muted); margin-top: .9rem; max-width: 60ch; }
+  .service .tags { margin-top: 1.1rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .service .tag { font-size: .78rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: .25rem .8rem; }
+  .service .aside { text-align: right; color: var(--faint); font-size: .85rem; max-width: 18ch; }
+  .ringkeep-badge {
+    display: inline-flex; align-items: center; gap: .5rem; text-decoration: none;
+    color: var(--fg); font-weight: 600; font-size: .9rem; border: 1px solid var(--line);
+    border-radius: 999px; padding: .4rem .9rem; transition: border-color .25s, transform .25s;
+  }
+  .ringkeep-badge:hover { border-color: var(--lime); transform: translateY(-1px); }
+  .ringkeep-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); }
+
+  /* ---------- WORK (pinned horizontal) ---------- */
+  .pin-outer { height: 320vh; }
+  .pin-track { height: 100vh; display: flex; align-items: center; overflow: hidden; }
+  .panels { display: flex; gap: 2.2rem; padding: 0 var(--gut); }
+  .panel {
+    flex: 0 0 min(78vw, 760px); height: 66vh; border-radius: 14px;
+    border: 1px solid var(--line); background: var(--panel);
+    display: flex; flex-direction: column; position: relative; overflow: hidden;
+  }
+  .panel .p-shot { flex: 1; position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+  .panel .p-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; transition: transform 1s cubic-bezier(.2,.8,.2,1); }
+  .panel:hover .p-shot img { transform: scale(1.05); }
+  .panel .p-shot .p-top {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 1.3rem;
+    background: linear-gradient(180deg, rgba(7,9,13,.78), transparent);
+  }
+  .panel .p-kind { font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; color: var(--aqua); }
+  .panel .p-num { font-family: var(--display); color: var(--fg); opacity: .7; }
+  .panel .p-body { padding: 1.5rem 1.7rem 1.7rem; }
+  .panel h3 { font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 500; line-height: 1.05; }
+  .panel .p-desc { color: var(--muted); margin-top: .7rem; max-width: 52ch; font-size: .98rem; }
+  .panel .p-link { color: var(--fg); text-decoration: none; font-weight: 600; display: inline-flex; gap: .5rem; align-items: center; margin-top: 1.2rem; }
+  .panel .p-link span { color: var(--aqua); }
+  .panel.placeholder { border-style: dashed; background: transparent; align-items: center; justify-content: center; text-align: center; }
+  .panel.placeholder .p-body { padding: 2.6rem; }
+  .panel.placeholder h3 { color: var(--muted); }
+  .panel.placeholder .p-num-big { font-family: var(--display); font-size: 3rem; color: var(--line); margin-bottom: .6rem; }
+
+  .work-head { padding-bottom: 0; }
+
+  /* ---------- APPROACH ---------- */
+  .approach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; border-top: 1px solid var(--line); padding-top: 3rem; }
+  .pillar .p-i { font-family: var(--display); font-size: 1.1rem; color: var(--aqua); }
+  .pillar h3 { font-size: 1.5rem; font-weight: 500; margin: 1rem 0 .7rem; }
+  .pillar p { color: var(--muted); }
+
+  /* ---------- RINGKEEP BAND ---------- */
+  .band {
+    border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+    background:
+      radial-gradient(70% 130% at 100% 0%, rgba(47,230,168,.12), transparent 55%),
+      var(--bg-2);
+    padding: clamp(2.5rem, 6vw, 5rem);
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 2.5rem; align-items: center;
+  }
+  .band .eyebrow { margin-bottom: 1.4rem; }
+  .band h2 { font-size: clamp(1.8rem, 3.6vw, 3rem); line-height: 1.05; font-weight: 500; }
+  .band p { color: var(--muted); margin-top: 1.2rem; max-width: 50ch; }
+  .band-side { display: flex; flex-direction: column; gap: 1rem; }
+  .band-stat { border: 1px solid var(--line); border-radius: 12px; padding: 1.2rem 1.4rem; background: rgba(255,255,255,.015); }
+  .band-stat b { font-family: var(--display); font-size: 1.4rem; font-weight: 500; display: block; }
+  .band-stat span { color: var(--muted); font-size: .9rem; }
+
+  /* ---------- CONTACT ---------- */
+  .contact { text-align: center; }
+  .contact h2 { font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.0; font-weight: 600; max-width: 16ch; margin: 1.6rem auto 0; }
+  .contact .lead { margin: 1.6rem auto 0; }
+  .contact-actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 2.6rem; }
+  .contact-line { margin-top: 2.4rem; color: var(--faint); font-size: .9rem; display: flex; gap: 1.6rem; justify-content: center; flex-wrap: wrap; }
+  .contact-line a { color: var(--muted); text-decoration: none; }
+  .contact-line a:hover { color: var(--fg); }
+
+  /* ---------- FOOTER ---------- */
+  footer { border-top: 1px solid var(--line); padding: 4rem var(--gut) 2.4rem; }
+  .foot-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap; }
+  .foot-brand { max-width: 32ch; }
+  .foot-brand .brand { margin-bottom: 1rem; }
+  .foot-brand p { color: var(--muted); font-size: .95rem; }
+  .foot-cols { display: flex; gap: 4rem; flex-wrap: wrap; }
+  .foot-col h4 { font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); margin-bottom: 1rem; font-family: var(--body); font-weight: 600; }
+  .foot-col a { display: block; color: var(--muted); text-decoration: none; font-size: .95rem; margin-bottom: .6rem; transition: color .2s; }
+  .foot-col a:hover { color: var(--fg); }
+  .foot-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 3.5rem; padding-top: 1.6rem; border-top: 1px solid var(--line); color: var(--faint); font-size: .85rem; flex-wrap: wrap; gap: 1rem; }
+
+  /* ---------- REVEAL helpers ---------- */
+  .reveal, .reveal-now { will-change: transform, opacity; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 880px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: inline-flex; }
+    .service { grid-template-columns: 3rem 1fr; }
+    .service .aside { display: none; }
+    .approach-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .band { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .hero h1 { font-size: clamp(2.4rem, 11vw, 3.4rem); }
+    .service { grid-template-columns: 1fr; gap: .6rem; }
+    .service .num { padding-top: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__inner { animation: none !important; }
+  }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1.1rem 0; white-space: nowrap; }
+  .marquee__inner { display: inline-flex; gap: 3rem; animation: marquee 28s linear infinite; will-change: transform; }
+  .marquee__inner span { font-family: var(--display); font-size: 1.05rem; color: var(--muted); display: inline-flex; align-items: center; gap: 3rem; }
+  .marquee__inner span::after { content: "✶"; color: var(--aqua); }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+</style>
+</head>
+<body>
+
+<div class="atmos"></div>
+<div class="grain"></div>
+<div class="progress" id="progress"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#top" class="brand">
+    <img src="assets/images/logo-icon.png" alt="Alkawave" />
+    <span>ALKAWAVE</span>
+  </a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#work">Work</a>
+    <a href="#approach">Approach</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="nav-cta">Start a project</a>
+  </div>
+  <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').style.display='flex'">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+</nav>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="eyebrow reveal-now">AI-native digital agency · New Jersey</p>
+    <h1>
+      <span class="line"><span>We build websites</span></span>
+      <span class="line"><span>and AI systems that</span></span>
+      <span class="line"><span><em class="grad" style="font-style:normal">grow</em> serious businesses.</span></span>
+    </h1>
+    <p class="lead hero-sub reveal-now">
+      Alkawave is an AI-native digital agency. We build high-end websites, run SEO and paid advertising, and engineer the AI systems that turn serious businesses into market leaders.
+    </p>
+    <div class="hero-actions reveal-now">
+      <a href="#contact" class="btn btn-primary">Start a project</a>
+      <a href="#work" class="btn btn-ghost">See the work →</a>
+    </div>
+    <div class="hero-meta reveal-now">
+      <span><b>Web design &amp; development</b></span>
+      <span><b>SEO &amp; paid advertising</b></span>
+      <span><b>AI systems &amp; automation</b></span>
+      <span><b>AI receptionist &amp; CRM</b></span>
+    </div>
+    <div class="scroll-hint">↓ Scroll</div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__inner">
+      <span>Web Design</span><span>Development</span><span>SEO</span><span>Paid Ads</span><span>AI Receptionists</span><span>CRM Automation</span><span>Brand</span>
+      <span>Web Design</span><span>Development</span><span>SEO</span><span>Paid Ads</span><span>AI Receptionists</span><span>CRM Automation</span><span>Brand</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="sec-head">
+      <p class="eyebrow reveal">What we do</p>
+      <h2 class="reveal">One agency for the website, the traffic, and the AI behind it.</h2>
+    </div>
+
+    <div class="services">
+      <div class="service reveal">
+        <div class="num">01</div>
+        <div>
+          <h3>High-end commercial websites</h3>
+          <p class="desc">Custom, conversion-built sites that make you look like the category leader — designed, developed, and launched with motion and craft most of your competitors can't touch.</p>
+          <div class="tags"><span class="tag">Design</span><span class="tag">Development</span><span class="tag">Motion</span><span class="tag">CMS</span></div>
+        </div>
+        <div class="aside">Flagship offering</div>
+      </div>
+
+      <div class="service reveal">
+        <div class="num">02</div>
+        <div>
+          <h3>SEO &amp; advertising</h3>
+          <p class="desc">Rank where buyers are searching and put paid traffic behind it. Growth that compounds month over month, measured in pipeline — not vanity metrics.</p>
+          <div class="tags"><span class="tag">Technical SEO</span><span class="tag">Local SEO</span><span class="tag">Google Ads</span><span class="tag">Meta Ads</span></div>
+        </div>
+        <div class="aside">Ongoing growth</div>
+      </div>
+
+      <div class="service reveal">
+        <div class="num">03</div>
+        <div>
+          <h3>AI business systems</h3>
+          <p class="desc">We don't bolt AI on as a gimmick. We design automation, chat, and workflow AI into how your business actually runs — so the busywork handles itself.</p>
+          <div class="tags"><span class="tag">Automation</span><span class="tag">Workflow AI</span><span class="tag">Integrations</span></div>
+        </div>
+        <div class="aside">Custom builds</div>
+      </div>
+
+      <div class="service reveal">
+        <div class="num">04</div>
+        <div>
+          <h3>AI receptionist &amp; CRM</h3>
+          <p class="desc">A 24/7 AI receptionist that answers calls, books appointments, and follows up — synced straight into your CRM. Powered by our sister company.</p>
+          <div class="tags"><span class="tag">Inbound calls</span><span class="tag">Booking</span><span class="tag">CRM sync</span></div>
+        </div>
+        <div class="aside">
+          <a href="https://www.ringkeep.com" target="_blank" rel="noopener" class="ringkeep-badge"><span class="dot"></span>RingKeep ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK head -->
+  <section id="work" class="work-head">
+    <div class="sec-head">
+      <p class="eyebrow reveal">Selected work</p>
+      <h2 class="reveal">A small portfolio, built to a high bar.</h2>
+      <p class="lead reveal" style="margin-top:1.4rem">Scroll sideways. We'd rather show a few things we're proud of than pad the page.</p>
+    </div>
+  </section>
+
+  <!-- WORK pinned horizontal -->
+  <div class="pin-outer" id="pinOuter">
+    <div class="pin-track" id="pinTrack">
+      <div class="panels" id="panels">
+        <div class="panel">
+          <div class="p-shot">
+            <div class="p-top"><span class="p-kind">Architecture · Web</span><span class="p-num">01</span></div>
+            <img src="assets/images/work/joemercedes.jpg" alt="Joe Mercedes architecture website" loading="lazy" />
+          </div>
+          <div class="p-body">
+            <h3>Joe Mercedes</h3>
+            <p class="p-desc">A portfolio site for a working architect — quiet, editorial, and built to make the work the hero. Live and shipping.</p>
+            <a href="https://joemercedes.com" target="_blank" rel="noopener" class="p-link">Visit site <span>↗</span></a>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="p-shot">
+            <div class="p-top"><span class="p-kind">AI Platform · SaaS</span><span class="p-num">02</span></div>
+            <img src="assets/images/work/ringkeep.jpg" alt="RingKeep AI receptionist platform" loading="lazy" />
+          </div>
+          <div class="p-body">
+            <h3>RingKeep</h3>
+            <p class="p-desc">Our sister company — an AI phone receptionist that answers, books, and never misses a lead. The voice layer we plug into client businesses.</p>
+            <a href="https://www.ringkeep.com" target="_blank" rel="noopener" class="p-link">Visit site <span>↗</span></a>
+          </div>
+        </div>
+        <div class="panel placeholder">
+          <div class="p-body">
+            <div class="p-num-big">03</div>
+            <h3>This space is reserved.</h3>
+            <p class="p-desc">We take on a limited number of builds at a time so each one gets the attention it deserves. Yours could be next.</p>
+            <a href="#contact" class="p-link">Start a project <span>↗</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROACH -->
+  <section id="approach">
+    <div class="sec-head">
+      <p class="eyebrow reveal">Why Alkawave</p>
+      <h2 class="reveal">Design-led, AI-native, built to convert.</h2>
+    </div>
+    <div class="approach-grid">
+      <div class="pillar reveal">
+        <div class="p-i">①</div>
+        <h3>Design-led</h3>
+        <p>Every build starts with craft. We make sites that earn trust in the first three seconds — because that's all you get.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="p-i">②</div>
+        <h3>AI-native</h3>
+        <p>We design AI into the business, not onto it. Receptionist, CRM, automation — working systems, not novelties.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="p-i">③</div>
+        <h3>Built to convert</h3>
+        <p>Beautiful is the baseline. We engineer for leads, bookings, and revenue — and we measure whether it worked.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RINGKEEP BAND -->
+  <section>
+    <div class="band reveal">
+      <div>
+        <p class="eyebrow">Sister company</p>
+        <h2>Meet <span class="grad">RingKeep</span> — your AI receptionist that never sleeps.</h2>
+        <p>Every Alkawave engagement can plug into RingKeep: a natural-sounding AI receptionist that answers every call, books appointments, and syncs the details into your CRM. The website brings them in — RingKeep makes sure no one slips through.</p>
+        <div class="hero-actions" style="margin-top:2rem">
+          <a href="https://www.ringkeep.com" target="_blank" rel="noopener" class="btn btn-primary">Explore RingKeep ↗</a>
+        </div>
+      </div>
+      <div class="band-side">
+        <div class="band-stat"><b>24/7</b><span>Answers every call, day or night</span></div>
+        <div class="band-stat"><b>Books &amp; follows up</b><span>Appointments straight into your calendar</span></div>
+        <div class="band-stat"><b>CRM-synced</b><span>Every lead captured and logged</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <p class="eyebrow reveal" style="justify-content:center">Let's talk</p>
+    <h2 class="reveal">Let's build something worth bragging about.</h2>
+    <p class="lead reveal">Tell us what you're building. We'll tell you straight whether we're the right team — and what it'd take to make it the best in your category.</p>
+    <div class="contact-actions reveal">
+      <a href="mailto:waveteam@alkawave.com" class="btn btn-primary">Start a project</a>
+      <a href="mailto:waveteam@alkawave.com" class="btn btn-ghost">Email us</a>
+    </div>
+    <div class="contact-line reveal">
+      <a href="mailto:waveteam@alkawave.com">waveteam@alkawave.com</a>
+      <span>·</span>
+      <span>New Jersey &amp; remote</span>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a href="#top" class="brand">
+        <img src="assets/images/logo-icon.png" alt="Alkawave" />
+        <span>ALKAWAVE</span>
+      </a>
+      <p>Alkawave is an AI-native digital agency. We build high-end websites, run SEO and paid advertising, and engineer the AI systems that turn serious businesses into market leaders.</p>
+    </div>
+    <div class="foot-cols">
+      <div class="foot-col">
+        <h4>Services</h4>
+        <a href="#services">Web design &amp; development</a>
+        <a href="#services">SEO &amp; advertising</a>
+        <a href="#services">AI business systems</a>
+        <a href="https://www.ringkeep.com" target="_blank" rel="noopener">AI receptionist ↗</a>
+      </div>
+      <div class="foot-col">
+        <h4>Agency</h4>
+        <a href="#work">Work</a>
+        <a href="#approach">Approach</a>
+        <a href="#contact">Contact</a>
+        <a href="https://www.ringkeep.com" target="_blank" rel="noopener">RingKeep ↗</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Alkawave. All rights reserved.</span>
+    <span>Alkawave Solutions</span>
+  </div>
+</footer>
+
+<!-- ---------------- SCRIPTS ---------------- -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Nav solid on scroll */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll();
+
+  /* Lenis smooth scroll synced to GSAP ticker */
+  let lenis;
+  if (!reduceMotion) {
+    lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    lenis.on('scroll', onScroll);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+  } else {
+    window.addEventListener('scroll', onScroll);
+  }
+
+  /* Smooth-scroll anchor links through Lenis */
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (id.length < 2) return;
+      const el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      if (lenis) lenis.scrollTo(el, { offset: -20 });
+      else el.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  if (reduceMotion) {
+    gsap.set('.reveal, .reveal-now, .hero h1 .line > span', { clearProps: 'all' });
+  } else {
+    /* Hero intro */
+    gsap.from('.hero h1 .line > span', { yPercent: 110, duration: 1, ease: 'power4.out', stagger: 0.1, delay: 0.15 });
+    gsap.from('.reveal-now', { y: 24, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.55 });
+
+    /* Reveal on scroll (batched) */
+    gsap.set('.reveal', { y: 42, opacity: 0 });
+    ScrollTrigger.batch('.reveal', {
+      start: 'top 88%',
+      onEnter: (els) => gsap.to(els, { y: 0, opacity: 1, duration: 0.85, ease: 'power3.out', stagger: 0.1 }),
+    });
+
+    /* Pinned horizontal work track */
+    const panels = document.getElementById('panels');
+    const distance = () => panels.scrollWidth - window.innerWidth + (window.innerWidth * 0.12);
+    gsap.to(panels, {
+      x: () => -distance(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#pinOuter', start: 'top top',
+        end: () => '+=' + distance(), scrub: 1, pin: '#pinTrack', invalidateOnRefresh: true,
+      },
+    });
+
+    /* Scroll progress bar */
+    gsap.to('#progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } });
+  }
+
+  window.addEventListener('resize', () => ScrollTrigger.refresh());
+</script>
+</body>
+</html>
