@@ -4,3 +4,5 @@
 !/.gitignore
 !/index.html
 !/assets/
+!/contact.php
+# brevo-config.php holds the API key — never commit it; upload it to Hostinger manually.

@@ -239,6 +239,28 @@
   .contact-line a { color: var(--muted); text-decoration: none; }
   .contact-line a:hover { color: var(--fg); }
 
+  /* ---------- CONTACT FORM ---------- */
+  .contact-form { max-width: 640px; margin: 3rem auto 0; text-align: left; display: flex; flex-direction: column; gap: 1.1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  .field { display: flex; flex-direction: column; gap: .5rem; }
+  .field label { font-size: .82rem; letter-spacing: .02em; color: var(--muted); font-weight: 500; }
+  .field label .opt { color: var(--faint); font-weight: 400; }
+  .field input, .field textarea {
+    width: 100%; font-family: var(--body); font-size: 1rem; color: var(--fg);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 9px;
+    padding: .85rem 1rem; transition: border-color .25s, background .25s; resize: vertical;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: var(--faint); }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--aqua); background: #0c1118; }
+  .field input.invalid, .field textarea.invalid { border-color: #ff5d6c; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .form-foot { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; margin-top: .4rem; }
+  #cf-submit[disabled] { opacity: .6; cursor: default; transform: none; box-shadow: none; }
+  .form-status { font-size: .9rem; color: var(--muted); margin: 0; }
+  .form-status.ok { color: var(--aqua); }
+  .form-status.err { color: #ff7a86; }
+  @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+
   /* ---------- FOOTER ---------- */
   footer { border-top: 1px solid var(--line); padding: 4rem var(--gut) 2.4rem; }
   .foot-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap; }
@@ -249,6 +271,7 @@
   .foot-col h4 { font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); margin-bottom: 1rem; font-family: var(--body); font-weight: 600; }
   .foot-col a { display: block; color: var(--muted); text-decoration: none; font-size: .95rem; margin-bottom: .6rem; transition: color .2s; }
   .foot-col a:hover { color: var(--fg); }
+  .foot-col .foot-loc { display: block; color: var(--faint); font-size: .95rem; }
   .foot-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 3.5rem; padding-top: 1.6rem; border-top: 1px solid var(--line); color: var(--faint); font-size: .85rem; flex-wrap: wrap; gap: 1rem; }
 
   /* ---------- REVEAL helpers ---------- */
@@ -510,11 +533,43 @@
     <p class="eyebrow reveal" style="justify-content:center">Let's talk</p>
     <h2 class="reveal">Let's build something worth bragging about.</h2>
     <p class="lead reveal">Tell us what you're building. We'll tell you straight whether we're the right team — and what it'd take to make it the best in your category.</p>
-    <div class="contact-actions reveal">
-      <a href="mailto:waveteam@alkawave.com" class="btn btn-primary">Start a project</a>
-      <a href="mailto:waveteam@alkawave.com" class="btn btn-ghost">Email us</a>
-    </div>
+
+    <form id="contact-form" class="contact-form reveal" novalidate>
+      <div class="form-row">
+        <div class="field">
+          <label for="cf-name">Name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
+        </div>
+        <div class="field">
+          <label for="cf-email">Email</label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="cf-company">Company <span class="opt">(optional)</span></label>
+          <input id="cf-company" name="company" type="text" autocomplete="organization" placeholder="Company name" />
+        </div>
+        <div class="field">
+          <label for="cf-phone">Phone <span class="opt">(optional)</span></label>
+          <input id="cf-phone" name="phone" type="tel" autocomplete="tel" placeholder="(201) 555-0123" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="cf-message">Project details</label>
+        <textarea id="cf-message" name="message" rows="5" placeholder="What are you building, and what does success look like?" required></textarea>
+      </div>
+      <!-- honeypot: hidden from humans, bots fill it -->
+      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <div class="form-foot">
+        <button type="submit" class="btn btn-primary" id="cf-submit">Send message</button>
+        <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+
     <div class="contact-line reveal">
+      <a href="tel:+12017201327">(201) 720-1327</a>
+      <span>·</span>
       <a href="mailto:waveteam@alkawave.com">waveteam@alkawave.com</a>
       <span>·</span>
       <span>New Jersey &amp; remote</span>
@@ -546,6 +601,12 @@
         <a href="#approach">Approach</a>
         <a href="#contact">Contact</a>
         <a href="https://www.ringkeep.com" target="_blank" rel="noopener">RingKeep ↗</a>
+      </div>
+      <div class="foot-col">
+        <h4>Get in touch</h4>
+        <a href="tel:+12017201327">(201) 720-1327</a>
+        <a href="mailto:waveteam@alkawave.com">waveteam@alkawave.com</a>
+        <span class="foot-loc">New Jersey &amp; remote</span>
       </div>
     </div>
   </div>
@@ -625,6 +686,70 @@
   }
 
   window.addEventListener('resize', () => ScrollTrigger.refresh());
+
+  /* Contact form → Resend relay (contact.php) */
+  const form = document.getElementById('contact-form');
+  if (form) {
+    const statusEl = document.getElementById('cf-status');
+    const submitBtn = document.getElementById('cf-submit');
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const setStatus = (msg, kind) => {
+      statusEl.textContent = msg;
+      statusEl.className = 'form-status' + (kind ? ' ' + kind : '');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      setStatus('', '');
+
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+
+      [form.name, form.email, form.message].forEach((f) => f.classList.remove('invalid'));
+      let bad = null;
+      if (!message) bad = form.message;
+      if (!emailRe.test(email)) bad = form.email;
+      if (!name) bad = form.name;
+      if (bad) {
+        bad.classList.add('invalid');
+        bad.focus();
+        setStatus('Please fill in your name, a valid email, and a message.', 'err');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      const original = submitBtn.textContent;
+      submitBtn.textContent = 'Sending…';
+      setStatus('Sending…', '');
+
+      try {
+        const res = await fetch('contact.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name, email, message,
+            company: form.company.value.trim(),
+            phone: form.phone.value.trim(),
+            website: form.website.value, // honeypot
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          form.reset();
+          setStatus("Thanks — your message is on its way. We'll be in touch shortly.", 'ok');
+        } else {
+          setStatus((data && data.error) || 'Something went wrong. Email us at waveteam@alkawave.com.', 'err');
+        }
+      } catch {
+        setStatus('Network error. Please email us directly at waveteam@alkawave.com.', 'err');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = original;
+      }
+    });
+  }
 </script>
 </body>
 </html>
