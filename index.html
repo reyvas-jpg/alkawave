@@ -176,8 +176,8 @@
   .ringkeep-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); }
 
   /* ---------- WORK (pinned horizontal) ---------- */
-  .pin-outer { height: 320vh; }
-  .pin-track { height: 100vh; display: flex; align-items: center; overflow: hidden; }
+  .pin-outer { position: relative; z-index: 2; }
+  .pin-track { height: 100vh; display: flex; align-items: center; overflow: hidden; background: var(--bg); }
   .panels { display: flex; gap: 2.2rem; padding: 0 var(--gut); }
   .panel {
     flex: 0 0 min(78vw, 760px); height: 66vh; border-radius: 14px;
@@ -616,7 +616,7 @@
       ease: 'none',
       scrollTrigger: {
         trigger: '#pinOuter', start: 'top top',
-        end: () => '+=' + distance(), scrub: 1, pin: '#pinTrack', invalidateOnRefresh: true,
+        end: () => '+=' + distance(), scrub: 1, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
       },
     });
 
